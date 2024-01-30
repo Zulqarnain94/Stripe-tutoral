@@ -59,8 +59,8 @@ app.MapPost("create-payment-intent", async (HttpRequest req, PaymentIntentServic
 {
     var options = new PaymentIntentCreateOptions
     {
-        Amount = 10,
-        Currency = "eur",
+        Amount = 10000,
+        Currency = "sek",
         AutomaticPaymentMethods = new()
         {
             Enabled = true
