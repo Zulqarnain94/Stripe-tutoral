@@ -28,14 +28,6 @@ StripeConfiguration.AppInfo = new AppInfo
 };
 
 
-// Check any required non key .env values.
-// var price = Environment.GetEnvironmentVariable("PRICE");
-// if (price == "price_12345" || price == "" || price == null)
-// {
-//     app.Logger.LogError("You must set a Price ID in .env. Please see the README.");
-//     Environment.Exit(1);
-// }
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -53,7 +45,7 @@ app.UseStaticFiles(new StaticFileOptions(staticFileOptions));
 app.MapGet("config", async (string sessionId, IOptions<StripeOptions> options) =>
 {
     return Results.Ok(new { publishableKey = options.Value.PublishableKey });
-});
+});StripeConfiguration.ApiKey
 
 app.MapPost("create-payment-intent", async (HttpRequest req, PaymentIntentService service) =>
 {
@@ -94,21 +86,7 @@ app.MapPost("webhook", async (HttpRequest req, IOptions<StripeOptions> options, 
     if (stripeEvent.Type == Events.CheckoutSessionCompleted)
     {
         var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-        logger.LogInformation($"Session ID: {session.Id}");
-        // Take some action based on session.
-        // Note: If you need access to the line items, for instance to
-        // automate fullfillment based on the the ID of the Price, you'll
-        // need to refetch the Checkout Session here, and expand the line items:
-        //
-        //var options = new SessionGetOptions();
-        // options.AddExpand("line_items");
-        //
-        // var service = new SessionService();
-        // Session session = service.Get(session.Id, options);
-        //
-        // StripeList<LineItem> lineItems = session.LineItems;
-        //
-        // Read more about expand here: https://stripe.com/docs/expand
+        logger.LogInformation($"Session ID: {session.Id}")  ;
     }
 
     return Results.Ok();
